@@ -34,10 +34,22 @@ class FitGradient {
             #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1).cgColor,
             #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1).cgColor
         ]
+        
+        var isIphoneX: Bool {
+            return (UIScreen.main.bounds.size.width == 375.0 && UIScreen.main.bounds.size.height == 812.0 ? true : false)
+        }
+        
+        
 
         let durations = Durations(fadeIn: 0.33, fadeOut: 0.66, progress: 3.33)
         gradientView = GradientView(animationDurations: durations, gradientColors: gradientColors)
-        gradientView.frame = frame
+        
+        if isIphoneX {
+            gradientView.frame = frame
+        } else {
+            gradientView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 2)
+        }
+        
         FitGradient.window_.addSubview(gradientView)
     }
     
@@ -96,10 +108,12 @@ class GradientView: UIView {
         let maskLayer = CAShapeLayer()
         maskLayer.fillColor = UIColor.clear.cgColor
         maskLayer.strokeColor = UIColor.purple.cgColor
-        maskLayer.lineWidth = 10
+        maskLayer.lineWidth = 5
         maskLayer.lineCap = kCALineCapRound
         maskLayer.path = hairPath.path().cgPath
-        self.layer.mask = maskLayer
+        if isIphoneX {
+            self.layer.mask = maskLayer
+        }
         
         gradientLayer.opacity = 0.0
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
@@ -126,20 +140,15 @@ class GradientView: UIView {
     // MARK: - public
     
     public func show() {
-        // Remove possible existing fade-out animation
         gradientLayer.removeAnimation(forKey: animationKeys.fadeOut.rawValue)
-        
         updateGradientLayer(fromValue: 0.0,
                                       toValue: 1.0,
                                       duration: animationDurations.fadeIn,
                                       animationKey: animationKeys.fadeIn.rawValue)
     }
     
-    /// Fades out gradient view
     public func hide() {
-        // Remove possible existing fade-in animation
         gradientLayer.removeAnimation(forKey: animationKeys.fadeIn.rawValue)
-        
         updateGradientLayer(fromValue: 1.0,
                                       toValue: 0.0,
                                       duration: animationDurations.fadeOut,
@@ -147,6 +156,8 @@ class GradientView: UIView {
     }
     
 }
+
+let isIphoneX = (UIScreen.main.bounds.size.width == 375.0 && UIScreen.main.bounds.size.height == 812.0 ? true : false)
 
 extension GradientView: CAAnimationDelegate {
     
