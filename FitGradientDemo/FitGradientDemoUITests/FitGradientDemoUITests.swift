@@ -1,14 +1,14 @@
 //
-//  iPhoneXDemoUITests.swift
-//  iPhoneXDemoUITests
+//  FitGradientDemoUITests.swift
+//  FitGradientDemoUITests
 //
-//  Created by cyrill on 2018/1/3.
+//  Created by cyrill on 2018/1/4.
 //  Copyright © 2018年 cyrill.win. All rights reserved.
 //
 
 import XCTest
 
-class iPhoneXDemoUITests: XCTestCase {
+class FitGradientDemoUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()
