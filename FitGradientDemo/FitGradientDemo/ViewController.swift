@@ -12,8 +12,6 @@ class ViewController: UIViewController {
 
     let bar = FitGradient()
     
-    var gradientView: GradientView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
