@@ -10,9 +10,21 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let bar = FitGradient()
+    
+    var gradientView: GradientView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    @IBAction func show(_ sender: Any) {
+        bar.show()
+    }
+    
+    @IBAction func hide(_ sender: Any) {
+        bar.hide()
     }
 
     override func didReceiveMemoryWarning() {
