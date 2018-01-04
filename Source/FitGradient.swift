@@ -1,6 +1,10 @@
 //
 //  FitGradient.swift
 //  FitGradient
+// 
+//  FitGradient is a gradientLoding bar.
+//  Now is support iPhoneX.
+//  Maybe it looks beautiful.
 //
 //  Created by cyrill on 2017/12/30.
 //  Copyright © 2017年 cyrill.win. All rights reserved.
