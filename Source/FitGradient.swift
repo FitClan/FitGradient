@@ -54,21 +54,24 @@ class FitGradient {
             gradientView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 2)
         }
         
-        FitGradient.window_.addSubview(gradientView)
     }
     
     func show() {
-        gradientView.show()
+        FitGradient.window_.addSubview(gradientView)
+        gradientView.show() {
+            
+        }
     }
     
     func hide() {
-        gradientView.hide()
+        gradientView.hide() {
+            self.gradientView.removeFromSuperview()
+        }
     }
 }
 
 class GradientView: UIView {
     
-    /// Animation-Keys for each animation
     enum animationKeys: String {
         case fadeIn
         case fadeOut
@@ -126,7 +129,7 @@ class GradientView: UIView {
         self.layer.addSublayer(gradientLayer)
     }
     
-    private func updateGradientLayer(fromValue: CGFloat, toValue: CGFloat, duration: TimeInterval, animationKey: String) {
+    private func updateGradientLayer(fromValue: CGFloat, toValue: CGFloat, duration: TimeInterval, animationKey: String, completion: @escaping () -> Void) {
         let animation = CABasicAnimation(keyPath: "opacity")
         animation.delegate = self
         
@@ -139,24 +142,20 @@ class GradientView: UIView {
         animation.isRemovedOnCompletion = false
         
         gradientLayer.add(animation, forKey: animationKey)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration , execute: completion)
     }
     
     // MARK: - public
     
-    public func show() {
+    public func show(_ completion: @escaping () -> Void) {
         gradientLayer.removeAnimation(forKey: animationKeys.fadeOut.rawValue)
-        updateGradientLayer(fromValue: 0.0,
-                                      toValue: 1.0,
-                                      duration: animationDurations.fadeIn,
-                                      animationKey: animationKeys.fadeIn.rawValue)
+        updateGradientLayer(fromValue: 0.0, toValue: 1.0, duration: animationDurations.fadeIn, animationKey: animationKeys.fadeIn.rawValue, completion: completion)
     }
     
-    public func hide() {
+    public func hide(_ completion: @escaping () -> Void) {
         gradientLayer.removeAnimation(forKey: animationKeys.fadeIn.rawValue)
-        updateGradientLayer(fromValue: 1.0,
-                                      toValue: 0.0,
-                                      duration: animationDurations.fadeOut,
-                                      animationKey: animationKeys.fadeOut.rawValue)
+        updateGradientLayer(fromValue: 1.0, toValue: 0.0, duration: animationDurations.fadeOut, animationKey: animationKeys.fadeOut.rawValue, completion: completion)
     }
     
 }
