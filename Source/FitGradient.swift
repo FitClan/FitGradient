@@ -146,6 +146,14 @@ class GradientView: UIView {
         DispatchQueue.main.asyncAfter(deadline: .now() + duration , execute: completion)
     }
     
+    func startAnimation(layerParam: CAShapeLayer) {
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 1
+        layerParam.add(animation, forKey: "ShapeLayerKey")
+    }
+    
     // MARK: - public
     
     public func show(_ completion: @escaping () -> Void) {
